@@ -1,0 +1,45 @@
+#!/bin/bash
+# exit if any script fails
+set -e
+
+GREEN="\e[32m"
+RED="\e[31m"
+WHITE="\e[97m"
+ENDCOLOR="\e[0m"
+
+today=$(date +"%y%m%d")
+filename=$today.md
+
+printSuccess () {
+	echo -e $(printf "${WHITE}✅ ${1}${ENDCOLOR}")
+}
+printError () {
+	echo -e $(printf "${RED}❌ ${1}${ENDCOLOR}")
+}
+
+# check if in the correct directory
+if  [[ ! $PWD/ =~ /NOTES ]]; then
+	printError "You are not in the ~/NOTES directory"
+	exit 0
+fi
+printSuccess "In correct directory"
+
+# check if a git repo and exit if not
+if [[ ! -d "./.git" ]]; then
+	printError "Not a git repo"
+	exit 0
+fi
+printSuccess "Is git repo"
+
+# check if file already exist
+if test -f "$filename"; then
+		printError "today's note '$filename' already exists"
+		exit 0
+fi
+printSuccess "$filename does not exist yet"
+
+touch $PWD/$filename
+git add ./$filename 
+printSuccess "$filename created"
+
+echo -e $(printf "${GREEN}🎉 DONE ${ENDCOLOR}")
