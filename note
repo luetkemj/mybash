@@ -39,6 +39,7 @@ fi
 printSuccess "$filename does not exist yet"
 
 touch $PWD/$filename
+printf "$filename\n-----\n\n" > $PWD/$filename
 git add ./$filename 
 printSuccess "$filename created"
 
