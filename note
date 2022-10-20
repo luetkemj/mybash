@@ -2,45 +2,18 @@
 # exit if any script fails
 set -e
 
-GREEN="\e[32m"
-RED="\e[31m"
-WHITE="\e[97m"
-ENDCOLOR="\e[0m"
+# nav to the notes directory
+cd ~/NOTES
 
-today=$(date +"%y%m%d")
-filename=$today.md
-
-printSuccess () {
-	echo -e $(printf "${WHITE}✅ ${1}${ENDCOLOR}")
-}
-printError () {
-	echo -e $(printf "${RED}❌ ${1}${ENDCOLOR}")
-}
-
-# check if in the correct directory
-if  [[ ! $PWD/ =~ /NOTES ]]; then
-	printError "You are not in the ~/NOTES directory"
-	exit 0
-fi
-printSuccess "In correct directory"
-
-# check if a git repo and exit if not
-if [[ ! -d "./.git" ]]; then
-	printError "Not a git repo"
-	exit 0
-fi
-printSuccess "Is git repo"
-
-# check if file already exist
+# if file already exists, open it
 if test -f "$filename"; then
-		printError "today's note '$filename' already exists"
-		exit 0
+	vim $PWD/$filename
+	exit 1
 fi
-printSuccess "$filename does not exist yet"
 
+# else create file, add it to git, and open it
 touch $PWD/$filename
 printf "$filename\n-----\n\n" > $PWD/$filename
 git add ./$filename 
-printSuccess "$filename created"
-
-echo -e $(printf "${GREEN}🎉 DONE ${ENDCOLOR}")
+vim $PWD/$filename
+exit 1
