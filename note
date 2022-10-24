@@ -5,6 +5,9 @@ set -e
 # nav to the notes directory
 cd ~/NOTES
 
+today=$(date +"%y%m%d")
+filename=$today.md
+
 # if file already exists, open it
 if test -f "$filename"; then
 	vim $PWD/$filename
