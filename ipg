@@ -1,0 +1,22 @@
+#!/bin/bash
+
+project=$1
+template=$2
+name=$3
+
+# this needs to be location of bash script NOT $PWD
+bin=$PWD
+
+#ipg platform component Sue
+
+cd ~/Sites
+
+cdir="$PWD/iris-platform/packages/$project-ui/components"
+
+if [[ $template == component ]]; then
+	sed -e "s;%NAME%;$name;g" $bin/templates/component.vue > $cdir/$name.vue
+	sed -e "s;%NAME%;$name;g" $bin/templates/component.testui.vue > $cdir/$name.testui.vue
+fi
+
+
+
