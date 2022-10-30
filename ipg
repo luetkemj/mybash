@@ -14,9 +14,10 @@ cd ~/Sites
 cdir="$PWD/iris-platform/packages/$project-ui/components"
 
 if [[ $template == component ]]; then
+	testuipage=$PWD/iris-platform/packages/$project-ui/pages/test-ui.vue
+	importStatement="import $name from '../components/test/$name.testui'\n// IMPORT"
 	sed -e "s;%NAME%;$name;g" $bin/templates/component.vue > $cdir/$name.vue
 	sed -e "s;%NAME%;$name;g" $bin/templates/component.testui.vue > $cdir/$name.testui.vue
+	sed -i .bak "s;// IMPORT;$importStatement;g" $testuipage > testuipage
 fi
-
-
 
